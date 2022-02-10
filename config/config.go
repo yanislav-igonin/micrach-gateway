@@ -16,7 +16,7 @@ type AppConfig struct {
 }
 
 func getAppConfig() AppConfig {
-	port := Defaults.GetInt(os.Getenv("PORT"), 3000)
+	port := Defaults.GetInt(os.Getenv("PORT"), 3001)
 	env := Defaults.GetString(os.Getenv("ENV"), "development")
 	apiKey := os.Getenv("API_KEY")
 
