@@ -1,5 +1,5 @@
 # micrach-gateway
-Gateway to handle many nodes of micrach.
+Gateway to handle many nodes of [micrach](https://github.com/yanislav-igonin/micrach).
 
 ## Motivation
 
