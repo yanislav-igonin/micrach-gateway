@@ -15,6 +15,12 @@ type AppConfig struct {
 	ApiKey string
 }
 
+type DbConfig struct {
+	// Url is the database url
+	Url string
+}
+
+// Gets the application configuration
 func getAppConfig() AppConfig {
 	port := Defaults.GetInt(os.Getenv("PORT"), 3001)
 	env := Defaults.GetString(os.Getenv("ENV"), "development")
@@ -31,8 +37,20 @@ func getAppConfig() AppConfig {
 	}
 }
 
-var App AppConfig
+// Gets the database configuration
+func getDbConfig() DbConfig {
+	url := Defaults.GetString(os.Getenv("MONGO_URL"), "localhost/micrach-gateway")
 
+	return DbConfig{
+		Url: url,
+	}
+}
+
+var App AppConfig
+var Db DbConfig
+
+// Initializes the configuration. Should be called before any other functions.
 func Init() {
 	App = getAppConfig()
+	Db = getDbConfig()
 }
