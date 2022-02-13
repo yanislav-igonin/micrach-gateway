@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	Config "micrach-gateway/config"
+	Db "micrach-gateway/db"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,6 +18,7 @@ type Board struct {
 func main() {
 	app := fiber.New()
 	Config.Init()
+	Db.Init()
 
 	boards := make(map[string]Board)
 
@@ -32,5 +35,6 @@ func main() {
 		return c.SendString("Hello, World 👋!")
 	})
 
-	app.Listen(":" + strconv.Itoa(Config.App.Port))
+	log.Println("all systems nominal")
+	log.Panicln(app.Listen(":" + strconv.Itoa(Config.App.Port)))
 }
