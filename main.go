@@ -15,6 +15,7 @@ func main() {
 	app := fiber.New()
 	Config.Init()
 	Db.Init()
+	defer Db.Disconnect()
 
 	app.Post("/boards", Controllers.AddBoard)
 

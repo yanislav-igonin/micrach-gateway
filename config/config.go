@@ -39,7 +39,7 @@ func getAppConfig() AppConfig {
 
 // Gets the database configuration
 func getDbConfig() DbConfig {
-	url := Defaults.GetString(os.Getenv("MONGO_URL"), "mongodb://localhost/micrach-gateway")
+	url := Defaults.GetString(os.Getenv("MONGO_URL"), "mongodb://localhost")
 
 	return DbConfig{
 		Url: url,

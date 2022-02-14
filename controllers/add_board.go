@@ -3,7 +3,9 @@ package controllers
 import (
 	Config "micrach-gateway/config"
 	Models "micrach-gateway/db/models"
-	Repositories "micrach-gateway/db/repositories"
+
+	// Repositories "micrach-gateway/db/repositories"
+	Db "micrach-gateway/db"
 	Dto "micrach-gateway/dto"
 	"time"
 
@@ -31,13 +33,13 @@ func AddBoard(c *fiber.Ctx) error {
 	}
 
 	var board Models.Board
-	// board.ID = body.ID
+	board.ID = body.ID
 	board.Url = body.Url
 	board.Description = body.Description
 	board.IsUp = true
 	board.LastPing = time.Now().UnixMilli()
-
-	err = Repositories.Boards.Create(&board)
+	err = Db.CreateBoard(&board)
+	// err = Repositories.Boards.Create(&board)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": fiber.Map{

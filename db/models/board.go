@@ -6,6 +6,7 @@ import (
 
 type Board struct {
 	_ID         primitive.ObjectID `bson:"_id"`
+	ID          string             `bson:"id"`
 	Description string             `bson:"description"`
 	Url         string             `bson:"url"`
 	LastPing    int64              `bson:"lastPing"`
