@@ -2,6 +2,8 @@ package controllers
 
 import (
 	Config "micrach-gateway/config"
+	Models "micrach-gateway/db/models"
+	Repositories "micrach-gateway/db/repositories"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -9,12 +11,31 @@ import (
 func AddBoard(c *fiber.Ctx) error {
 	headerApiKey := c.Get("Authorization")
 	if headerApiKey != Config.App.ApiKey {
-		return c.Status(401).JSON(fiber.Map{
-			"error": "Unauthorized",
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": fiber.Map{
+				"message": "api key required",
+			},
 		})
 	}
-	// board := Board{}
-	// c.BodyParser(&board)
-	// boards[board.ID] = board
-	return c.SendString("Hello, World 👋!")
+
+	var board Models.Board
+	err := c.BodyParser(&board)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": fiber.Map{
+				"message": "error parsing body",
+			},
+		})
+	}
+
+	err = Repositories.Create(&board)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": fiber.Map{
+				"message": "error creating board",
+			},
+		})
+	}
+
+	return c.JSON(fiber.Map{"ok": true})
 }

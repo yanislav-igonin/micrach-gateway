@@ -9,15 +9,21 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var Client *mongo.Client
+var client *mongo.Client
+var Database *mongo.Database
 
 func Init() {
-	Client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(Config.Db.Url))
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(Config.Db.Url))
 	if err != nil {
 		log.Panicln(err)
 	}
+	err = client.Ping(context.TODO(), nil)
+	if err != nil {
+		log.Panicln(err)
+	}
+	Database = client.Database("micrach-gateway")
 	defer func() {
-		if err := Client.Disconnect(context.TODO()); err != nil {
+		if err := client.Disconnect(context.TODO()); err != nil {
 			log.Panicln(err)
 		}
 	}()
