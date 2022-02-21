@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -16,6 +17,7 @@ func main() {
 	Config.Init()
 	Db.Init()
 	defer Db.Disconnect()
+	app.Use(recover.New())
 
 	app.Post("/boards", Controllers.AddBoard)
 
