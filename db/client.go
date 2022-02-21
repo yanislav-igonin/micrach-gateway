@@ -4,9 +4,8 @@ import (
 	"context"
 	"log"
 	Config "micrach-gateway/config"
-	Models "micrach-gateway/db/models"
 
-	// BoardsRepository "micrach-gateway/db/repositories"
+	BoardsRepository "micrach-gateway/db/repositories"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -14,7 +13,6 @@ import (
 
 var client *mongo.Client
 var Database *mongo.Database
-var BoardsCollection *mongo.Collection
 
 func Init() {
 	clientOptions := options.Client().ApplyURI(Config.Db.Url)
@@ -27,8 +25,7 @@ func Init() {
 		log.Panicln(err)
 	}
 	Database = client.Database("micrach-gateway")
-	// BoardsRepository.Init(Database)
-	BoardsCollection = Database.Collection("boards")
+	BoardsRepository.Init(Database)
 	log.Println("database - online")
 }
 
@@ -36,12 +33,4 @@ func Disconnect() {
 	if err := client.Disconnect(context.TODO()); err != nil {
 		log.Panicln(err)
 	}
-}
-
-func CreateBoard(b *Models.Board) error {
-	_, err := BoardsCollection.InsertOne(context.TODO(), b)
-	if err != nil {
-		return err
-	}
-	return nil
 }

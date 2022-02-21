@@ -4,10 +4,8 @@ import (
 	Config "micrach-gateway/config"
 	Models "micrach-gateway/db/models"
 
-	// Repositories "micrach-gateway/db/repositories"
-	Db "micrach-gateway/db"
+	Repositories "micrach-gateway/db/repositories"
 	Dto "micrach-gateway/dto"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -33,13 +31,10 @@ func AddBoard(c *fiber.Ctx) error {
 	}
 
 	var board Models.Board
-	board.ID = body.ID
+	board.Shortcut = body.ID
 	board.Url = body.Url
-	board.Description = body.Description
-	board.IsUp = true
-	board.LastPing = time.Now().UnixMilli()
-	err = Db.CreateBoard(&board)
-	// err = Repositories.Boards.Create(&board)
+	board.Name = body.Name
+	err = Repositories.Boards.Create(&board)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": fiber.Map{

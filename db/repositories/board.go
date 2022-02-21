@@ -2,10 +2,12 @@ package repositories
 
 import (
 	"context"
+	"time"
 
 	Models "micrach-gateway/db/models"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -28,10 +30,17 @@ func Init(db *mongo.Database) {
 
 // Create board record
 func (r *boardsRepository) Create(b *Models.Board) error {
-	err := r.collection.Database().Client().Ping(context.TODO(), nil)
-	if err != nil {
+	existedBoard, err := r.GetByShortcut(b.Shortcut)
+	if err != nil && err != mongo.ErrNoDocuments {
 		return err
 	}
+	if existedBoard != nil {
+		// TODO: add some meaningful error
+		panic("board already exists")
+	}
+
+	b.ID, b.CreatedAt, b.UpdatedAt = primitive.NewObjectID(), time.Now(), time.Now()
+
 	_, err = r.collection.InsertOne(context.TODO(), b)
 	if err != nil {
 		return err
@@ -54,4 +63,19 @@ func (r *boardsRepository) GetAll() (*[]Models.Board, error) {
 		boards = append(boards, board)
 	}
 	return &boards, nil
+}
+
+func (r *boardsRepository) GetByShortcut(shortcut string) (*Models.Board, error) {
+	var board Models.Board
+	result := r.collection.FindOne(context.TODO(), bson.D{{"shortcut", shortcut}})
+	if result.Err() != nil {
+		if result.Err() != mongo.ErrNoDocuments {
+			return nil, result.Err()
+		}
+	}
+	err := result.Decode(&board)
+	if err != nil {
+		return nil, err
+	}
+	return &board, nil
 }
