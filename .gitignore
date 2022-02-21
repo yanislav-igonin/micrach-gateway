@@ -24,3 +24,5 @@ go.work
 tmp/
 
 .env
+
+__debug_bin
