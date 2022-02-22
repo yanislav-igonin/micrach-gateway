@@ -36,11 +36,7 @@ func AddBoard(c *fiber.Ctx) error {
 	board.Name = body.Name
 	err = Repositories.Boards.Create(&board)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": fiber.Map{
-				"message": "error creating board",
-			},
-		})
+		return err
 	}
 
 	return c.JSON(fiber.Map{"ok": true})

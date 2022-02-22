@@ -6,6 +6,7 @@ import (
 
 	Models "micrach-gateway/db/models"
 
+	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -35,8 +36,7 @@ func (r *boardsRepository) Create(b *Models.Board) error {
 		return err
 	}
 	if existedBoard != nil {
-		// TODO: add some meaningful error
-		panic("board already exists")
+		return fiber.NewError(fiber.StatusConflict, "board already exists")
 	}
 
 	b.ID, b.CreatedAt, b.UpdatedAt = primitive.NewObjectID(), time.Now(), time.Now()
