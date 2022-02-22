@@ -36,7 +36,7 @@ func (r *boardsRepository) Create(b *Models.Board) error {
 		return err
 	}
 	if existedBoard != nil {
-		return fiber.NewError(fiber.StatusConflict, "board already exists")
+		return fiber.NewError(fiber.StatusConflict, "Board already exists")
 	}
 
 	b.ID, b.CreatedAt, b.UpdatedAt = primitive.NewObjectID(), time.Now(), time.Now()

@@ -5,6 +5,7 @@ import (
 	Config "micrach-gateway/config"
 	Controllers "micrach-gateway/controllers"
 	Db "micrach-gateway/db"
+	Middlewares "micrach-gateway/middlewares"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -13,7 +14,9 @@ import (
 )
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		ErrorHandler: Middlewares.ErrorsHandler,
+	})
 	Config.Init()
 	Db.Init()
 	defer Db.Disconnect()
