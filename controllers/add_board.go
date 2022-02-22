@@ -13,28 +13,20 @@ import (
 func AddBoard(c *fiber.Ctx) error {
 	headerApiKey := c.Get("Authorization")
 	if headerApiKey != Config.App.ApiKey {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"error": fiber.Map{
-				"message": "api key required",
-			},
-		})
+		return fiber.NewError(fiber.StatusUnauthorized, "api key must be provided")
 	}
 
-	var body Dto.CreateBoardRequest
+	body := new(Dto.CreateBoardRequest)
 	err := c.BodyParser(&body)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": fiber.Map{
-				"message": "error parsing body",
-			},
-		})
+		return fiber.ErrBadRequest
 	}
 
-	var board Models.Board
+	board := new(Models.Board)
 	board.Shortcut = body.ID
 	board.Url = body.Url
 	board.Name = body.Name
-	err = Repositories.Boards.Create(&board)
+	err = Repositories.Boards.Create(board)
 	if err != nil {
 		return err
 	}
