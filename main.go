@@ -19,7 +19,7 @@ func main() {
 	defer Db.Disconnect()
 	app.Use(recover.New())
 
-	app.Post("/boards", Controllers.AddBoard)
+	app.Post("/api/boards", Controllers.AddBoard)
 
 	log.Println("all systems nominal")
 	log.Panicln(app.Listen(":" + strconv.Itoa(Config.App.Port)))
