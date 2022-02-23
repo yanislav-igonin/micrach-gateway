@@ -7,12 +7,13 @@ import (
 )
 
 type Board struct {
-	ID        primitive.ObjectID `bson:"_id"`
-	Shortcut  string             `bson:"shortcut"`
-	Name      string             `bson:"name"`
-	Url       string             `bson:"url"`
-	CreatedAt time.Time          `bson:"createdAt"`
-	UpdatedAt time.Time          `bson:"updatedAt"`
+	ID primitive.ObjectID `bson:"_id"`
+	// Shortcut (ID) of the board. b or dev or etc.
+	Shortcut  string    `bson:"shortcut"`
+	Name      string    `bson:"name"`
+	Url       string    `bson:"url"`
+	CreatedAt time.Time `bson:"createdAt"`
+	UpdatedAt time.Time `bson:"updatedAt"`
 	// for the next update
 	// LastPing       time.Time              `bson:"lastPing"`
 	// IsUp           bool               `bson:"isUp"`
