@@ -1,6 +1,8 @@
 package middlewares
 
 import (
+	"log"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -13,6 +15,8 @@ func ErrorsHandler(ctx *fiber.Ctx, err error) error {
 	if e, ok := err.(*fiber.Error); ok {
 		code = e.Code
 		message = e.Error()
+	} else {
+		log.Println("error: ", err)
 	}
 
 	return ctx.Status(code).JSON(fiber.Map{
