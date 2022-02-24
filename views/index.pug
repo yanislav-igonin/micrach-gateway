@@ -2,4 +2,10 @@ include partials/header.pug
 
 h1 #{.Title}
 
+ul
+  each B in .Boards
+    li
+      p #{.Name}
+      a(href=.Url, target='blank') #{.Shortcut}
+
 include partials/footer.pug
