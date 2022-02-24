@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	Repositories "micrach-gateway/db/repositories"
 
 	"github.com/gofiber/fiber/v2"
@@ -9,7 +8,6 @@ import (
 
 func Index(ctx *fiber.Ctx) error {
 	boards, err := Repositories.Boards.GetAll()
-	log.Println(boards)
 	if err != nil {
 		return fiber.ErrInternalServerError
 	}
