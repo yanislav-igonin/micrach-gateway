@@ -25,6 +25,8 @@ func main() {
 	defer Db.Disconnect()
 	app.Use(recover.New())
 
+	app.Static("/static", "./static")
+
 	app.Get("/", Controllers.Index)
 	app.Post("/api/boards", Controllers.AddBoard)
 
