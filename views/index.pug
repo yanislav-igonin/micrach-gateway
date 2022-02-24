@@ -2,8 +2,7 @@ include partials/header.pug
 
 ul
   each B in .Boards
-    li
-      p #{.Name}
-      a(href=.Url, target='blank') #{.Shortcut}
+    include mixins/board
+    +board(.)
 
 include partials/footer.pug
