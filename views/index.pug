@@ -1,8 +1,9 @@
 include partials/header.pug
 
-ul
-  each B in .Boards
-    include mixins/board
-    +board(.)
+div.container.content-container
+  ul.list-unstyled
+    each B in .Boards
+      include mixins/board
+      +board(.)
 
 include partials/footer.pug

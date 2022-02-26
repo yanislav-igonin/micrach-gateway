@@ -1,4 +1,6 @@
 mixin board(b)
-li
-  p #{.Name}
-  a(href=.Url, target='blank') #{.Shortcut}
+li.display-4
+  div.board-container
+    span
+      a.board-link(href=.Url, target='blank') /#{.Shortcut}
+    span - #{.Name}
