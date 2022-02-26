@@ -9,6 +9,9 @@
   justify-content: center;
 }
 
+.board-container {
+  transition: 0.25s;
+}
 .board-container:hover {
   transition: 0.25s;
   -webkit-transform: scale(1.2);
