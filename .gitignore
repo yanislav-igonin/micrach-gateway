@@ -26,3 +26,5 @@ tmp/
 .env
 
 __debug_bin
+
+micrach-gateway
