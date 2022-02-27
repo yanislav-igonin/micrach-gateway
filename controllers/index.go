@@ -14,5 +14,5 @@ func Index(ctx *fiber.Ctx) error {
 	return ctx.Render("index", fiber.Map{
 		"Title":  "Hello, World!",
 		"Boards": boards,
-	}, "layout/main")
+	})
 }

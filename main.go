@@ -19,6 +19,7 @@ func main() {
 	app := fiber.New(fiber.Config{
 		ErrorHandler: Middlewares.ErrorsHandler,
 		Views:        engine,
+		ViewsLayout:  "layout/main",
 	})
 	Config.Init()
 	Db.Init()
